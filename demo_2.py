@@ -218,28 +218,27 @@ if __name__ == '__main__':
         while cv.getWindowProperty("CSI Camera", 0) >= 0:
             ret, frame = cap.read()
             if ret:
-                keyCode = cv.waitKey(1)
-                if keyboard.is_pressed('1'):
+                mode = '1'
+                if mode == '1':
                     mask = model.infer(frame)
                     # print(mask[0].shape)
                     mask = np.where(np.asarray(mask[0])!=0,1, np.asarray(mask[0]))
                     mask = np.stack([mask, mask, mask], axis=-1)
                     blend_img = frame * mask
                     img = background_blur(frame, blend_img, mask)
-                    keyCode = '1'
-                if keyCode == ord('2'):
+                if mode == '2':
                     mask = model.infer(frame)
                     # print(mask[0].shape)
                     mask = np.where(np.asarray(mask[0])!=0,1, np.asarray(mask[0]))
                     mask = np.stack([mask, mask, mask], axis=-1)
                     blend_img = frame * mask
                     img = background_replace(mask, blend_img)
-                if keyCode == ord('3'):
+                if mode == '3':
                     img = face_distort(frame)
-                if keyCode == ord('4'):
+                if mode == '4':
                     img = face_replace(frame)
                                
-                if keyCode == ord('5'):
+                if mode == '5':
                     count += 1
                     img, flag = custom_filter(frame,count)
                     if flag:
