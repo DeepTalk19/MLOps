@@ -12,7 +12,7 @@ import time
 from pphumanseg import PPHumanSeg
 from PIL  import Image
 import math
-import keyboard
+
 
 # Check OpenCV version
 assert cv.__version__ >= "4.8.0", \
@@ -218,34 +218,21 @@ if __name__ == '__main__':
         while cv.getWindowProperty("CSI Camera", 0) >= 0:
             ret, frame = cap.read()
             if ret:
-                mode = '1'
-                if mode == '1':
-                    mask = model.infer(frame)
-                    # print(mask[0].shape)
-                    mask = np.where(np.asarray(mask[0])!=0,1, np.asarray(mask[0]))
-                    mask = np.stack([mask, mask, mask], axis=-1)
-                    blend_img = frame * mask
-                    img = background_blur(frame, blend_img, mask)
-                if mode == '2':
-                    mask = model.infer(frame)
-                    # print(mask[0].shape)
-                    mask = np.where(np.asarray(mask[0])!=0,1, np.asarray(mask[0]))
-                    mask = np.stack([mask, mask, mask], axis=-1)
-                    blend_img = frame * mask
-                    img = background_replace(mask, blend_img)
-                if mode == '3':
-                    img = face_distort(frame)
-                if mode == '4':
-                    img = face_replace(frame)
-                               
-                if mode == '5':
-                    count += 1
-                    img, flag = custom_filter(frame,count)
-                    if flag:
-                        count = 0
-                else:
-                    img = frame
+                # mask = model.infer(frame)
+                # # print(mask[0].shape)
+                # mask = np.where(np.asarray(mask[0])!=0,1, np.asarray(mask[0]))
+                # mask = np.stack([mask, mask, mask], axis=-1)
+                # blend_img = frame * mask
+                # img = background_blur(frame, blend_img, mask)
+                # img = background_replace(mask, blend_img)
+                img = face_distort(frame)
+                # img = face_replace(frame)                     
+                # count += 1
+                # img, flag = custom_filter(frame,count)
+                # if flag:
+                #     count = 0
                 cv.imshow("CSI Camera", img)
+            keyCode = cv.waitKey(30)
             if keyCode == ord('q'):
                 break
             # Increment frame count
